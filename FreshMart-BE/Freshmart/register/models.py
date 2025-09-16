@@ -75,4 +75,4 @@ class Products(models.Model):
     description = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.product_name} - {self.price}"
+        return f"{self.product_name} - {self.price}-{self.rating}"
