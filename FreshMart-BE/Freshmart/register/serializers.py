@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User,Products
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
@@ -31,3 +31,8 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Account is inactive")
         data['user'] = user
         return data
+    
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Products
+        fields="__all__"
