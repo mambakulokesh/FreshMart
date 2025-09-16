@@ -65,4 +65,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-    
+
+
+class Products(models.Model):
+    image = models.ImageField(upload_to="products/")
+    product_name = models.CharField(max_length=50)
+    rating = models.DecimalField(max_digits=3, decimal_places=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.product_name} - {self.price}"
