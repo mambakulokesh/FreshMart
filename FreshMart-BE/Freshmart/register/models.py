@@ -67,7 +67,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         }
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Products(models.Model):
+    category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to="products/")
     product_name = models.CharField(max_length=50)
     rating = models.DecimalField(max_digits=3, decimal_places=1)
@@ -75,4 +83,4 @@ class Products(models.Model):
     description = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.product_name} - {self.price}-{self.rating}"
+        return f"{self.product_name} ({self.category.name}) - {self.price}-{self.rating}"

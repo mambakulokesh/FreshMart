@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Products
+from .models import User,Products,Category
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
@@ -36,3 +36,8 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model=Products
         fields="__all__"
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Category
+        fields=["id","name"]
+        
