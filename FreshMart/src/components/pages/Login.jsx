@@ -45,7 +45,7 @@ function LoginPage() {
     try {
       if (isLogin) {
         try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, {
+          const response = await axios.post(`http://127.0.0.1:8000/api/login/`, {
             email: formData.email,
             password: formData.password
           });
@@ -59,7 +59,7 @@ function LoginPage() {
         }
       } else {
         try {
-          await axios.post(`${process.env.REACT_APP_API_URL}/api/Register/`, {
+          await axios.post(`http://127.0.0.1:8000/api/Register/`, {
             fullname: formData.name,
             email: formData.email,
             phone_number: parseInt(formData.phone),
