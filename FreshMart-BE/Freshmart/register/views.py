@@ -19,7 +19,6 @@ class RegisterView(APIView):
             user = serializer.save()
             refresh = user.tokens()
             return Response({
-                'message': "Registered successfully!",
                 'refresh': refresh['refresh'],
                 'access': refresh['access']
             }, status=status.HTTP_201_CREATED)
