@@ -9,10 +9,13 @@ import PageNotFound from "./components/pages/PageNotFound";
 import SeaHeader from "./components/SeaFood/SeaHeader";
 import Cart from "./components/pages/CartPage";
 import Footer from "./components/pages/footer";
-import ProductViewPage from "./components/pages/ProductViewPage";
 import Checkout from "./components/pages/Checkout";
 import About from "./components/SeaFood/About";
 import Profile from "./components/pages/Profile";
+import SeaProducts from "./components/SeaFood/SeaProducts";
+import ContactUs from "./components/common/ContactUs";
+
+import ProductViewPage from "./components/SeaFood/ProductViewPage";
 
 
 function App() {
@@ -24,8 +27,12 @@ function App() {
             <Routes>
               <Route path="/" element={<><Header /><Home /></>} />
               <Route path="/login" element={<LoginPage />} />
+
               <Route path="/seafood" element={<><SeaHeader />  <Footer /></> } />
               <Route path="/seafood/about" element={<About />} />
+              <Route path="/all-sea-products" element={<SeaProducts />} />
+              <Route path="/seafood/contact-us" element={<ContactUs />} />
+              <Route path="/seafood/seafood-product-view" element={<ProductViewPage />} />
 
               {/* <Route path="/seafood/:id" element={<ProductViewPage />} /> */}
 

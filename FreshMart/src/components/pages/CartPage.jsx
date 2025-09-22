@@ -1,159 +1,246 @@
 import React, { useState } from "react";
-import { TrashIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
+import { Trash2, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; 
 
-// Mock cart data (dairy products)
+// Mock cart data
 const initialCartItems = [
   {
     id: 1,
-    name: "Organic Whole Milk",
-    price: 4.99,
-    quantity: 2,
-    image: "https://via.placeholder.com/80x80?text=Milk",
+    name: "Black Oven Pepperoni",
+    price: 18,
+    quantity: 1,
+    image: "https://www.ex-coders.com/php-template/fresheat/assets/img/dishes/dishes3_1.png",
   },
   {
     id: 2,
-    name: "Cheddar Cheese Block",
-    price: 6.49,
+    name: "Chicken Nut Pizza",
+    price: 18,
     quantity: 1,
-    image: "https://via.placeholder.com/80x80?text=Cheese",
+    image: "https://www.ex-coders.com/php-template/fresheat/assets/img/dishes/dishes3_2.png",
   },
   {
     id: 3,
-    name: "Greek Yogurt",
-    price: 3.29,
-    quantity: 3,
-    image: "https://via.placeholder.com/80x80?text=Yogurt",
+    name: "Daal Loaded Vegan",
+    price: 18,
+    quantity: 1,
+    image: "https://www.ex-coders.com/php-template/fresheat/assets/img/dishes/dishes3_3.png",
+  },
+  {
+    id: 4,
+    name: "Chicken Leg Piece",
+    price: 18,
+    quantity: 1,
+    image: "https://www.ex-coders.com/php-template/fresheat/assets/img/dishes/dishes3_4.png",
   },
 ];
 
 function Cart() {
   const [cartItems, setCartItems] = useState(initialCartItems);
+  const [couponCode, setCouponCode] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth(); 
 
-  // Update quantity
   const updateQuantity = (id, delta) => {
     setCartItems(
       (prevItems) =>
         prevItems
           .map((item) =>
             item.id === id
-              ? { ...item, quantity: Math.max(0, item.quantity + delta) }
+              ? { ...item, quantity: Math.max(1, item.quantity + delta) }
               : item
           )
-          .filter((item) => item.quantity > 0) // Remove items if quantity = 0
     );
   };
 
-  // Remove item
   const removeItem = (id) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // Calculate total
-  const total = cartItems
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-    .toFixed(2);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = subtotal;
 
-  // Handle checkout navigation
   const handleCheckout = () => {
     if (user) {
-      navigate("/checkout"); // Proceed to checkout if logged in
+      navigate("/checkout");
     } else {
-      navigate("/login"); // Redirect to login if not logged in
+      navigate("/login");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-200 via-cyan-300 to-blue-400 flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-6 sm:p-8 relative">
-        {/* Header */}
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-teal-800 mb-8">
-          Your Eco-Dairy Cart 🥛
-        </h2>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <div className="relative text-white py-16 shadow-2xl overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://t4.ftcdn.net/jpg/02/92/20/37/240_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg"
+            alt="Food Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50"></div>
+        </div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h1 className="text-5xl font-extrabold mb-4 tracking-wide drop-shadow-lg">CART LIST</h1>
+          <div className="flex items-center justify-center space-x-2 text-lg font-medium">
+            <span>Home</span>
+            <span>/</span>
+            <span className="text-yellow-300 font-bold">Cart List</span>
+          </div>
+        </div>
+      </div>
 
-        {/* Cart Items */}
+      <div className="max-w-6xl mx-auto px-4 py-12">
         {cartItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-lg text-teal-700">Your cart is empty.</p>
+            <p className="text-lg text-gray-700">Your cart is empty.</p>
             <button
               onClick={() => navigate("/shop")}
-              className="mt-4 bg-teal-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-teal-700 transition transform hover:scale-105"
+              className="mt-4 bg-red-600 text-white font-semibold py-2 px-6 rounded hover:bg-red-700 transition"
             >
               Shop Now
             </button>
           </div>
         ) : (
-          <div className="space-y-6">
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col sm:flex-row items-center justify-between bg-teal-50 border border-teal-200 rounded-xl p-4 hover:bg-teal-100 transition"
-              >
-                {/* Item Image */}
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                {/* Item Details */}
-                <div className="flex-1 ml-0 sm:ml-4 text-center sm:text-left">
-                  <h3 className="text-lg font-semibold text-teal-900">
-                    {item.name}
-                  </h3>
-                  <p className="text-teal-700">
-                    ${item.price.toFixed(2)} / unit
-                  </p>
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Cart Items Table */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-red-600 text-white p-4">
+                  <h2 className="text-lg font-semibold flex items-center">
+                    <span className="mr-2">🛒</span>
+                    Shopping cart updated!
+                  </h2>
                 </div>
-                {/* Quantity Controls */}
-                <div className="flex items-center space-x-2 my-3 sm:my-0">
-                  <button
-                    onClick={() => updateQuantity(item.id, -1)}
-                    className="p-2 bg-teal-100 rounded-full text-teal-700 hover:bg-teal-200 transition"
-                  >
-                    <MinusIcon className="h-5 w-5" />
-                  </button>
-                  <span className="text-lg font-medium text-teal-900">
-                    {item.quantity}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(item.id, 1)}
-                    className="p-2 bg-teal-100 rounded-full text-teal-700 hover:bg-teal-200 transition"
-                  >
-                    <PlusIcon className="h-5 w-5" />
-                  </button>
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Menu Image</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Menu Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {cartItems.map((item) => (
+                        <tr key={item.id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-16 h-16 object-cover rounded-full"
+                            />
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">${item.price}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => updateQuantity(item.id, -1)}
+                                className="w-8 h-8 text-gray-500 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100"
+                              >
+                                <Minus className="h-4 w-4" />
+                              </button>
+                              <span className="w-8 text-gray-500 text-center">{item.quantity}</span>
+                              <button
+                                onClick={() => updateQuantity(item.id, 1)}
+                                className="w-8 h-8 border text-gray-500 border-gray-300 rounded flex items-center justify-center hover:bg-gray-100"
+                              >
+                                <Plus className="h-4 w-4" />
+                              </button>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">${item.price * item.quantity}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              onClick={() => removeItem(item.id)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              <Trash2 className="h-5 w-5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-                {/* Item Total */}
-                <p className="text-lg font-semibold text-teal-900">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
-                {/* Remove Button */}
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="ml-0 sm:ml-4 mt-3 sm:mt-0 p-2 bg-red-100 rounded-full text-red-600 hover:bg-red-200 transition"
-                >
-                  <TrashIcon className="h-5 w-5" />
-                </button>
+                
+                <div className="p-4 bg-gray-50 flex justify-between items-center">
+                  <div className="flex items-center space-x-4">
+                    <input
+                      type="text"
+                      placeholder="Coupon Code"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded"
+                    />
+                    <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                      Apply Coupon
+                    </button>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                      Update cart
+                    </button>
+                    <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                      Continue Shopping
+                    </button>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
 
-            {/* Cart Summary */}
-            <div className="border-t border-teal-200 pt-6 mt-6">
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-teal-800">Total</h3>
-                <p className="text-2xl font-bold text-teal-900">${total}</p>
+            {/* Cart Totals */}
+            <div className="lg:col-span-1 text-gray-700">
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-lg font-semibold mb-4 text-gray-800">Cart Totals</h3>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span>Cart Subtotal</span>
+                    <span>${subtotal}</span>
+                  </div>
+                  
+                  <div className="border-t pt-4">
+                    <h4 className="font-medium mb-2">Shipping and Handling</h4>
+                    <div className="space-y-2 text-sm">
+                      <label className="flex items-center">
+                        <input type="radio" name="shipping" className="mr-2" defaultChecked />
+                        Free Shipping
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="shipping" className="mr-2" />
+                        Flat rate
+                      </label>
+                      <p className="text-blue-600 cursor-pointer">Calculate shipping rates for other locations during checkout</p>
+                    </div>
+                  </div>
+                  
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between font-semibold text-lg">
+                      <span>Order Total</span>
+                      <span>${total}</span>
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={handleCheckout}
+                    className="w-full bg-red-600 text-white py-3 rounded hover:bg-red-700 transition font-semibold"
+                  >
+                    Proceed to Checkout
+                  </button>
+                </div>
               </div>
-              <p className="text-sm text-teal-600 mt-2">
-                🌿 Free eco-friendly shipping on orders over $50
-              </p>
-              <button
-                onClick={handleCheckout}
-                className="w-full mt-4 bg-gradient-to-r from-teal-600 to-blue-600 text-white font-semibold py-3 rounded-full hover:from-teal-700 hover:to-blue-700 transition transform hover:scale-105"
-              >
-                Proceed to Checkout
-              </button>
             </div>
           </div>
         )}

@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Home, User, LogOut } from "lucide-react";
-import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-  const { getTotalItems } = useCart();
   const { user, logout } = useAuth();
-  const totalItems = getTotalItems();
 
   const navigate = useNavigate();
 

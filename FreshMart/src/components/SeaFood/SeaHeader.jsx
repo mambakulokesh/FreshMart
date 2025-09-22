@@ -27,9 +27,9 @@ import ProductModal from "../common/ProductModal";
 
 function SeaHeader() {
   const [isOpen, setIsOpen] = useState(false);
-  const { addToCart, getTotalItems } = useCart();
+  const { addToCart, getCartItemsCount } = useCart();
   const { user, logout } = useAuth();
-  const totalItems = getTotalItems();
+  const totalItems = getCartItemsCount();
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,10 +125,10 @@ function SeaHeader() {
               ABOUT
             </Link>
             <Link
-              to="/shop"
+              to="/seafood/contact-us"
               className="hover:text-cyan-200 border-l pl-2 sm:pl-4 border-white/50 transition duration-200 ease-in-out transform hover:scale-105"
             >
-              SHOP NOW
+              CONTACT US
             </Link>
           </nav>
 
@@ -560,7 +560,7 @@ function SeaHeader() {
 
           {/* View All Button */}
           <div className="text-center">
-            <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+            <button onClick={()=> navigate("/all-sea-products")} className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
               VIEW ALL ITEMS
             </button>
           </div>
@@ -574,11 +574,11 @@ function SeaHeader() {
             {/* Left Side - Content */}
             <div className="space-y-8">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">🍔</span>
                 </div>
                 <span className="text-orange-500 font-semibold uppercase tracking-wider text-sm">Work Process</span>
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">🍔</span>
                 </div>
               </div>
