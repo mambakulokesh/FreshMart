@@ -38,6 +38,9 @@ class LoginView(APIView):
             tokens = user.tokens()
             return Response({
                 'message': "Rara Battu ra!",
+                'user_id': user.id,
+                'fullname': user.fullname,
+                'email': user.email,
                 'refresh': tokens['refresh'],
                 'access': tokens['access']
             }, status=status.HTTP_200_OK)
