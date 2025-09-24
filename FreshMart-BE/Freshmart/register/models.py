@@ -76,7 +76,6 @@ class Category(models.Model):
 
 class Products(models.Model):
     category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE, null=True, blank=True)
-    image = models.ImageField(upload_to="products/")
     product_name = models.CharField(max_length=50)
     rating = models.DecimalField(max_digits=3, decimal_places=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
